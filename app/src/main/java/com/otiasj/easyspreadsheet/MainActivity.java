@@ -1,8 +1,10 @@
-package com.otiasj.easyspreadsheet.main.presentation;
+package com.otiasj.easyspreadsheet;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v7.widget.GridLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -12,11 +14,20 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
+import android.widget.Button;
 
 import com.otiasj.easyspreadsheet.R;
+import com.otiasj.easyspreadsheet.main.domain.MockSpreadSheetDelegate;
+import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenter;
+import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenterImpl;
+import com.otiasj.easyspreadsheet.main.presentation.view.SpreadsheetView;
 
-public class SpreadsheetActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener, SpreadsheetView {
+/**
+ * Auto generated class, would need to be broken up, extract the drawer etc...
+ * to follow the MVP pattern.
+ */
+public abstract class MainActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

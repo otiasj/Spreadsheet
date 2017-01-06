@@ -1,4 +1,4 @@
-package com.otiasj.easyspreadsheet.main.presentation;
+package com.otiasj.easyspreadsheet.main.presentation.view;
 
 /**
  * Created by julien on 1/6/2017.
@@ -6,4 +6,5 @@ package com.otiasj.easyspreadsheet.main.presentation;
  */
 public interface SpreadsheetView {
 
+    void refreshSpanCount(int colCount);
 }

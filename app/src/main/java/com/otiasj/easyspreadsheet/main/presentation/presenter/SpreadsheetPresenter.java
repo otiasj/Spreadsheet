@@ -1,4 +1,4 @@
-package com.otiasj.easyspreadsheet.main.presentation;
+package com.otiasj.easyspreadsheet.main.presentation.presenter;
 
 import android.support.v7.widget.RecyclerView;
 
@@ -14,5 +14,7 @@ public interface SpreadsheetPresenter {
     void editText();
     void selectCell(int x, int y);
     void undo();
+    void load(String spreadsheetName);
+    void save(String spreadsheetName);
     void reload();
 }

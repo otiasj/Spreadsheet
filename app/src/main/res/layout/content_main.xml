@@ -11,7 +11,7 @@
     android:paddingRight="@dimen/activity_horizontal_margin"
     android:paddingTop="@dimen/activity_vertical_margin"
     app:layout_behavior="@string/appbar_scrolling_view_behavior"
-    tools:context="com.otiasj.easyspreadsheet.main.presentation.SpreadsheetActivity"
+    tools:context="com.otiasj.easyspreadsheet.MainActivity"
     tools:showIn="@layout/app_bar_main">
 
     <LinearLayout
@@ -51,6 +51,7 @@
     </LinearLayout>
 
     <android.support.v7.widget.RecyclerView
+        android:id="@+id/spreadsheetRV"
         android:layout_width="match_parent"
         android:layout_height="match_parent"
         android:layout_alignParentBottom="true"
