@@ -1,4 +1,4 @@
-package com.otiasj.easyspreadsheet;
+package com.otiasj.easyspreadsheet.main.presentation;
 
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
@@ -13,8 +13,10 @@ import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
 
-public class MainActivity extends AppCompatActivity
-        implements NavigationView.OnNavigationItemSelectedListener {
+import com.otiasj.easyspreadsheet.R;
+
+public class SpreadsheetActivity extends AppCompatActivity
+        implements NavigationView.OnNavigationItemSelectedListener, SpreadsheetView {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
