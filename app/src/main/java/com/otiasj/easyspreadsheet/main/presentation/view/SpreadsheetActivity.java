@@ -60,7 +60,7 @@ public class SpreadsheetActivity extends MainActivity
                 spreadsheetPresenter.addRow();
             }
         });
-        Button addColButton = (Button) findViewById(R.id.addRowButton);
+        Button addColButton = (Button) findViewById(R.id.addColumnButton);
         addColButton.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(final View view) {

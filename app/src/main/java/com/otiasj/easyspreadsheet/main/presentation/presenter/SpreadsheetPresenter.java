@@ -11,8 +11,8 @@ public interface SpreadsheetPresenter {
     RecyclerView.Adapter getAdapter();
     void addRow();
     void addColumn();
-    void editText();
-    void selectCell(int x, int y);
+    void editText(String text);
+    void selectCell(int gridIndex);
     void undo();
     void load(String spreadsheetName);
     void save(String spreadsheetName);

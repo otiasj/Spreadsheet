@@ -5,6 +5,7 @@ import android.util.Log;
 
 import com.otiasj.easyspreadsheet.main.domain.SpreadsheetDelegate;
 import com.otiasj.easyspreadsheet.main.domain.model.SpreadSheet;
+import com.otiasj.easyspreadsheet.main.domain.model.SpreadsheetCell;
 import com.otiasj.easyspreadsheet.main.presentation.view.SpreadsheetView;
 
 import rx.Observable;
@@ -21,9 +22,12 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
 
     private static final String TAG = SpreadsheetPresenterImpl.class.getCanonicalName();
 
+    private SpreadSheet spreadsheet;
+    private SpreadsheetCell selectedCell;
     private SpreadsheetView view;
     private SpreadsheetAdapter spreadsheetAdapter = new SpreadsheetAdapter();
     private SpreadsheetDelegate spreadsheetDelegate;
+
 
     public SpreadsheetPresenterImpl(final SpreadsheetView view, final SpreadsheetDelegate spreadsheetDelegate) {
         this.view = view;
@@ -37,22 +41,33 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
 
     @Override
     public void addRow() {
-
+        if (spreadsheet != null) {
+            spreadsheet.addRow();
+            spreadsheetAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
     public void addColumn() {
-
+        if (spreadsheet != null) {
+            spreadsheet.addColumn();
+            view.refreshSpanCount(spreadsheet.getNumberOfColumn());
+            spreadsheetAdapter.notifyDataSetChanged();
+        }
     }
 
     @Override
-    public void editText() {
-
+    public void editText(String text) {
+        if (selectedCell != null) {
+            selectedCell.setCellData(text);
+        }
     }
 
     @Override
-    public void selectCell(final int x, final int y) {
-
+    public void selectCell(final int gridIndex) {
+        if (spreadsheet != null) {
+            this.selectedCell = spreadsheet.getCellAt(gridIndex);
+        }
     }
 
     @Override
@@ -77,6 +92,8 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
     }
 
     private Observer<SpreadSheet> spreadSheetObserver = new Observer<SpreadSheet>() {
+
+
         @Override
         public void onCompleted() {
 
@@ -88,9 +105,10 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
         }
 
         @Override
-        public void onNext(final SpreadSheet spreadSheet) {
-            spreadsheetAdapter.setSpreadSheet(spreadSheet);
-            view.refreshSpanCount(spreadSheet.getNumberOfColumn());
+        public void onNext(final SpreadSheet spreadsheet) {
+            SpreadsheetPresenterImpl.this.spreadsheet = spreadsheet;
+            spreadsheetAdapter.setSpreadSheet(spreadsheet);
+            view.refreshSpanCount(spreadsheet.getNumberOfColumn());
         }
     };
 }
