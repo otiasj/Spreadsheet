@@ -7,4 +7,6 @@ package com.otiasj.easyspreadsheet.main.presentation.view;
 public interface SpreadsheetView {
 
     void refreshSpanCount(int colCount);
+
+    void setCurrentEditText(String text);
 }

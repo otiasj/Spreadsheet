@@ -11,10 +11,13 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.GridLayoutManager;
 import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
+import android.text.Editable;
+import android.text.TextWatcher;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
+import android.widget.EditText;
 
 import com.otiasj.easyspreadsheet.MainActivity;
 import com.otiasj.easyspreadsheet.R;
@@ -32,12 +35,25 @@ public class SpreadsheetActivity extends MainActivity
 
     private SpreadsheetPresenter spreadsheetPresenter;
     private GridLayoutManager gridLayoutManager;
+    private EditText cellEditText;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         customTemporaryInit();
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        cellEditText.addTextChangedListener(textWatcher);
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        cellEditText.removeTextChangedListener(textWatcher);
     }
 
     //Todo : initialization of the model and presenter, should probably use dependency injection here.
@@ -67,13 +83,36 @@ public class SpreadsheetActivity extends MainActivity
                 spreadsheetPresenter.addColumn();
             }
         });
+        cellEditText = (EditText) findViewById(R.id.cellEditText);
 
         spreadsheetPresenter.load("Empty spreadsheet");
     }
 
+    private TextWatcher textWatcher = new TextWatcher() {
+        @Override
+        public void beforeTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
+
+        }
+
+        @Override
+        public void onTextChanged(final CharSequence charSequence, final int i, final int i1, final int i2) {
+
+        }
+
+        @Override
+        public void afterTextChanged(final Editable editable) {
+            spreadsheetPresenter.editText(editable.toString());
+        }
+    };
+
     @Override
     public void refreshSpanCount(int colCount) {
         gridLayoutManager.setSpanCount(colCount);
+    }
+
+    @Override
+    public void setCurrentEditText(final String text) {
+        cellEditText.setText(text);
     }
 
 }

@@ -17,6 +17,11 @@ import com.otiasj.easyspreadsheet.main.presentation.model.SpreadsheetCellHolder;
 public class SpreadsheetAdapter extends RecyclerView.Adapter<SpreadsheetCellHolder> {
 
     private SpreadSheet spreadSheet;
+    private OnCellClickListener onClickListener;
+
+    public SpreadsheetAdapter(final OnCellClickListener onClickListener) {
+        this.onClickListener = onClickListener;
+    }
 
     @Override
     public SpreadsheetCellHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -24,7 +29,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<SpreadsheetCellHold
                 from(viewGroup.getContext()).
                 inflate(R.layout.cell_view, viewGroup, false);
 
-        return new SpreadsheetCellHolder(itemView);
+        return new SpreadsheetCellHolder(itemView, onClickListener);
     }
 
     @Override
@@ -32,7 +37,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<SpreadsheetCellHold
         if (spreadSheet == null) {
             return;
         } else {
-            holder.bind(spreadSheet.getCellAt(gridPosition));
+            holder.bind(gridPosition, spreadSheet.getCellAt(gridPosition));
         }
     }
 

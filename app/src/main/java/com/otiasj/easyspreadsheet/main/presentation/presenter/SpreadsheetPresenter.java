@@ -12,7 +12,6 @@ public interface SpreadsheetPresenter {
     void addRow();
     void addColumn();
     void editText(String text);
-    void selectCell(int gridIndex);
     void undo();
     void load(String spreadsheetName);
     void save(String spreadsheetName);

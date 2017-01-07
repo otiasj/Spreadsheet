@@ -2,6 +2,7 @@ package com.otiasj.easyspreadsheet.main.presentation.presenter;
 
 import android.support.v7.widget.RecyclerView;
 import android.util.Log;
+import android.view.View;
 
 import com.otiasj.easyspreadsheet.main.domain.SpreadsheetDelegate;
 import com.otiasj.easyspreadsheet.main.domain.model.SpreadSheet;
@@ -24,10 +25,24 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
 
     private SpreadSheet spreadsheet;
     private SpreadsheetCell selectedCell;
+    private int selectedGridPosition;
     private SpreadsheetView view;
-    private SpreadsheetAdapter spreadsheetAdapter = new SpreadsheetAdapter();
-    private SpreadsheetDelegate spreadsheetDelegate;
 
+    private OnCellClickListener onClickListener = new OnCellClickListener() {
+        @Override
+        public void onCellClick(final int gridIndex, final SpreadsheetCell cell) {
+            selectedGridPosition = gridIndex;
+            selectedCell = cell;
+            if (selectedCell != null) {
+                view.setCurrentEditText(selectedCell.getCellData());
+            } else {
+                view.setCurrentEditText("");
+            }
+        }
+    };
+
+    private SpreadsheetAdapter spreadsheetAdapter = new SpreadsheetAdapter(onClickListener);
+    private SpreadsheetDelegate spreadsheetDelegate;
 
     public SpreadsheetPresenterImpl(final SpreadsheetView view, final SpreadsheetDelegate spreadsheetDelegate) {
         this.view = view;
@@ -59,14 +74,17 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
     @Override
     public void editText(String text) {
         if (selectedCell != null) {
+            //edit an existing cell
             selectedCell.setCellData(text);
-        }
-    }
-
-    @Override
-    public void selectCell(final int gridIndex) {
-        if (spreadsheet != null) {
-            this.selectedCell = spreadsheet.getCellAt(gridIndex);
+            spreadsheetAdapter.notifyDataSetChanged();
+        } else {
+            //create a new cell
+            if (selectedGridPosition >= 0) {
+                selectedCell = new SpreadsheetCell();
+                selectedCell.setCellData(text);
+                spreadsheet.setCellAt(selectedGridPosition, selectedCell);
+                spreadsheetAdapter.notifyDataSetChanged();
+            }
         }
     }
 

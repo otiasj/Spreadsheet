@@ -6,6 +6,7 @@ import android.widget.TextView;
 
 import com.otiasj.easyspreadsheet.R;
 import com.otiasj.easyspreadsheet.main.domain.model.SpreadsheetCell;
+import com.otiasj.easyspreadsheet.main.presentation.presenter.OnCellClickListener;
 
 /**
  * Created by julien on 1/6/2017.
@@ -13,14 +14,21 @@ import com.otiasj.easyspreadsheet.main.domain.model.SpreadsheetCell;
  */
 public class SpreadsheetCellHolder extends RecyclerView.ViewHolder  {
 
+    private final OnCellClickListener onClickListener;
     private TextView cellTextView;
+    private int cellPosition;
+    private SpreadsheetCell cell;
 
-    public SpreadsheetCellHolder(final View itemView) {
+    public SpreadsheetCellHolder(final View itemView, final OnCellClickListener listener) {
         super(itemView);
         cellTextView = (TextView) itemView.findViewById(R.id.cellTextView);
+        onClickListener = listener;
     }
 
-    public void bind(final SpreadsheetCell cellAt) {
+    public void bind(final int gridposition, final SpreadsheetCell cellAt) {
+        cellPosition = gridposition;
+        cell = cellAt;
+        cellTextView.setOnClickListener(viewClickListener);
         if (cellAt != null) {
             String data = cellAt.getCellData();
             cellTextView.setText(data);
@@ -28,4 +36,11 @@ public class SpreadsheetCellHolder extends RecyclerView.ViewHolder  {
             cellTextView.setText("EMPTY");
         }
     }
+
+    View.OnClickListener viewClickListener = new View.OnClickListener() {
+        @Override
+        public void onClick(final View view) {
+            onClickListener.onCellClick(cellPosition, cell);
+        }
+    };
 }

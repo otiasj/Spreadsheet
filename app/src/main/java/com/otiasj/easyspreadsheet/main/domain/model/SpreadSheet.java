@@ -69,5 +69,19 @@ public class SpreadSheet {
         return getCellAt(row, col);
     }
 
+    /**
+     * the grid position is the position in the gridview like this
+     * 0 1 2 3
+     * 4 5 6 7
+     * 8 9 10 11
+     *
+     * @param gridPosition the position to retrieve data from
+     */
+    public void setCellAt(final int gridPosition, final SpreadsheetCell cell) {
+        int row = gridPosition / numberOfColumn;
+        int col = gridPosition % numberOfColumn;
+        setCellAt(row, col, cell);
+    }
+
     //Todo: add save/load to parcel
 }
