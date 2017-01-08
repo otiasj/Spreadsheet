@@ -7,6 +7,7 @@ import android.view.ViewGroup;
 
 import com.otiasj.easyspreadsheet.R;
 import com.otiasj.easyspreadsheet.main.domain.model.SpreadSheet;
+import com.otiasj.easyspreadsheet.main.domain.model.SpreadsheetCell;
 import com.otiasj.easyspreadsheet.main.presentation.model.SpreadsheetCellHolder;
 
 /**
@@ -18,9 +19,16 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<SpreadsheetCellHold
 
     private SpreadSheet spreadSheet;
     private OnCellClickListener onClickListener;
+    private int selectedCellIndex = -1;
 
-    public SpreadsheetAdapter(final OnCellClickListener onClickListener) {
-        this.onClickListener = onClickListener;
+    public SpreadsheetAdapter(final OnCellClickListener externalCellClickListener) {
+        this.onClickListener = new OnCellClickListener() {
+            @Override
+            public void onCellClick(final int gridIndex, final SpreadsheetCell cell) {
+                selectedCellIndex = gridIndex;
+                externalCellClickListener.onCellClick(gridIndex, cell);
+            }
+        };
     }
 
     @Override
@@ -37,7 +45,7 @@ public class SpreadsheetAdapter extends RecyclerView.Adapter<SpreadsheetCellHold
         if (spreadSheet == null) {
             return;
         } else {
-            holder.bind(gridPosition, spreadSheet.getCellAt(gridPosition));
+            holder.bind(gridPosition, gridPosition == selectedCellIndex, spreadSheet.getCellAt(gridPosition));
         }
     }
 

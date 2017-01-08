@@ -25,15 +25,20 @@ public class SpreadsheetCellHolder extends RecyclerView.ViewHolder  {
         onClickListener = listener;
     }
 
-    public void bind(final int gridposition, final SpreadsheetCell cellAt) {
-        cellPosition = gridposition;
+    public void bind(final int gridPosition, final boolean isSelected, final SpreadsheetCell cellAt) {
+        cellPosition = gridPosition;
         cell = cellAt;
         cellTextView.setOnClickListener(viewClickListener);
         if (cellAt != null) {
             String data = cellAt.getCellData();
             cellTextView.setText(data);
         }else {
-            cellTextView.setText("EMPTY");
+            cellTextView.setText("");
+        }
+        if (isSelected) {
+            cellTextView.setBackgroundResource(R.drawable.cell_selector);
+        } else {
+            cellTextView.setBackground(null);
         }
     }
 

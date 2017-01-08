@@ -66,6 +66,8 @@ public class SpreadsheetActivity extends MainActivity
 
         //grid layout
         gridLayoutManager = new GridLayoutManager(this, getResources().getInteger(R.integer.default_spreadsheet_size));
+        spreadSheetRecyclerView.addItemDecoration(new CellDecoration(this));
+
         spreadSheetRecyclerView.setLayoutManager(gridLayoutManager);
 
         //button listeners
