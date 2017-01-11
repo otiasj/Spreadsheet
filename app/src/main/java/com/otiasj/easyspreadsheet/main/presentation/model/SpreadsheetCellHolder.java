@@ -32,7 +32,7 @@ public class SpreadsheetCellHolder extends RecyclerView.ViewHolder  {
         if (cellAt != null) {
             String data = cellAt.getCellData();
             cellTextView.setText(data);
-        }else {
+        } else {
             cellTextView.setText("");
         }
         if (isSelected) {

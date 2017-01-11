@@ -3,6 +3,8 @@ package com.otiasj.easyspreadsheet.main.presentation.view;
 import android.content.Context;
 import android.content.res.TypedArray;
 import android.graphics.Canvas;
+import android.graphics.Color;
+import android.graphics.Paint;
 import android.graphics.Rect;
 import android.graphics.drawable.Drawable;
 import android.support.v7.widget.RecyclerView;
@@ -27,7 +29,6 @@ public class CellDecoration extends RecyclerView.ItemDecoration {
         TypedArray a = context.obtainStyledAttributes(ATTRS);
         mDivider = a.getDrawable(0);
         a.recycle();
-
         mInsets = context.getResources().getDimensionPixelSize(R.dimen.cell_insets);
     }
 
@@ -35,6 +36,31 @@ public class CellDecoration extends RecyclerView.ItemDecoration {
     public void onDrawOver(Canvas c, RecyclerView parent, RecyclerView.State state) {
         drawVertical(c, parent);
         drawHorizontal(c, parent);
+        drawBorder(c, parent);
+    }
+
+    private void drawBorder(final Canvas c, final RecyclerView parent) {
+        final int left = parent.getLeft();
+        final int right = parent.getRight();
+        final int top = parent.getTop();
+        final int bottom = parent.getBottom();
+        final int size = mDivider.getIntrinsicHeight();
+
+        //Top
+        mDivider.setBounds(left, top, right, top + size);
+        mDivider.draw(c);
+
+        //Left
+        mDivider.setBounds(left, top, left + size, bottom);
+        mDivider.draw(c);
+
+        //Right
+        mDivider.setBounds(right - size, top, right, bottom);
+        mDivider.draw(c);
+
+        //Bottom
+        mDivider.setBounds(left, bottom - size, right, bottom);
+        mDivider.draw(c);
     }
 
     /** Draw dividers at each expected grid interval */
@@ -61,15 +87,20 @@ public class CellDecoration extends RecyclerView.ItemDecoration {
     public void drawHorizontal(Canvas c, RecyclerView parent) {
         final int childCount = parent.getChildCount();
 
+        int left;
+        int right;
+        int top = 0;
+        int bottom = 0;
+
         for (int i = 0; i < childCount; i++) {
             final View child = parent.getChildAt(i);
             final RecyclerView.LayoutParams params =
                     (RecyclerView.LayoutParams) child.getLayoutParams();
 
-            final int left = child.getRight() + params.rightMargin + mInsets;
-            final int right = left + mDivider.getIntrinsicWidth();
-            final int top = child.getTop() - params.topMargin - mInsets;
-            final int bottom = child.getBottom() + params.bottomMargin + mInsets;
+            left = child.getRight() + params.rightMargin + mInsets;
+            right = left + mDivider.getIntrinsicWidth();
+            top = child.getTop() - params.topMargin - mInsets;
+            bottom = child.getBottom() + params.bottomMargin + mInsets;
             mDivider.setBounds(left, top, right, bottom);
             mDivider.draw(c);
         }
@@ -77,6 +108,7 @@ public class CellDecoration extends RecyclerView.ItemDecoration {
 
     @Override
     public void getItemOffsets(Rect outRect, View view, RecyclerView parent, RecyclerView.State state) {
-        outRect.set(0, 0, 0, 0);
+        super.getItemOffsets(outRect, view, parent, state);
+        outRect.set(mInsets, mInsets, mInsets, mInsets);
     }
 }

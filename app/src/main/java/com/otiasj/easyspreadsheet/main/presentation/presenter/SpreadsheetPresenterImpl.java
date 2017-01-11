@@ -1,6 +1,7 @@
 package com.otiasj.easyspreadsheet.main.presentation.presenter;
 
 import android.support.v7.widget.RecyclerView;
+import android.text.TextUtils;
 import android.util.Log;
 import android.view.View;
 
@@ -38,6 +39,7 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
             } else {
                 view.setCurrentEditText("");
             }
+            spreadsheetAdapter.notifyDataSetChanged();
         }
     };
 
@@ -72,14 +74,14 @@ public class SpreadsheetPresenterImpl implements SpreadsheetPresenter {
     }
 
     @Override
-    public void editText(String text) {
+    public void editSelectedCellText(String text) {
         if (selectedCell != null) {
             //edit an existing cell
             selectedCell.setCellData(text);
             spreadsheetAdapter.notifyDataSetChanged();
         } else {
             //create a new cell
-            if (selectedGridPosition >= 0) {
+            if (selectedGridPosition >= 0 && spreadsheet != null && !TextUtils.isEmpty(text)) {
                 selectedCell = new SpreadsheetCell();
                 selectedCell.setCellData(text);
                 spreadsheet.setCellAt(selectedGridPosition, selectedCell);
