@@ -1,10 +1,9 @@
 package com.otiasj.easyspreadsheet;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
-import android.support.v7.widget.GridLayoutManager;
-import android.support.v7.widget.RecyclerView;
 import android.view.View;
 import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
@@ -14,20 +13,19 @@ import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.widget.Button;
 
-import com.otiasj.easyspreadsheet.R;
-import com.otiasj.easyspreadsheet.main.domain.MockSpreadSheetDelegate;
-import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenter;
-import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenterImpl;
+import com.otiasj.easyspreadsheet.login.SignInActivity;
 import com.otiasj.easyspreadsheet.main.presentation.view.SpreadsheetView;
+import com.otiasj.easyspreadsheet.main.presentation.view.SpreadsheetViewImpl;
 
 /**
  * Auto generated class, would need to be broken up, extract the drawer etc...
  * to follow the MVP pattern.
  */
-public abstract class MainActivity extends AppCompatActivity
+public class MainActivity extends AppCompatActivity
         implements NavigationView.OnNavigationItemSelectedListener {
+
+    private SpreadsheetView spreadsheetView = new SpreadsheetViewImpl();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -53,6 +51,20 @@ public abstract class MainActivity extends AppCompatActivity
 
         NavigationView navigationView = (NavigationView) findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
+        spreadsheetView.onCreate(this, findViewById(R.id.content_main));
+    }
+
+    @Override
+    protected void onStart() {
+        super.onStart();
+        spreadsheetView.onStart();
+    }
+
+    @Override
+    protected void onStop() {
+        super.onStop();
+        spreadsheetView.onStop();
     }
 
     @Override
@@ -93,14 +105,11 @@ public abstract class MainActivity extends AppCompatActivity
         // Handle navigation view item clicks here.
         int id = item.getItemId();
 
-        if (id == R.id.nav_camera) {
-            // Handle the camera action
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
+        if (id == R.id.nav_save) {
+        } else if (id == R.id.nav_save) {
+            signIn();
+        } else if (id == R.id.nav_load) {
+            signIn();
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_send) {
@@ -110,5 +119,12 @@ public abstract class MainActivity extends AppCompatActivity
         DrawerLayout drawer = (DrawerLayout) findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
+    }
+
+    private void signIn() {
+        if (!SignInActivity.isSignedIn()) {
+            Intent signInActivityIntent = new Intent(this, SignInActivity.class);
+            startActivity(signInActivityIntent);
+        }
     }
 }
