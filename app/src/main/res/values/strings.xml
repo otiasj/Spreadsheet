@@ -9,4 +9,9 @@
     <string name="add_column">Add Column</string>
     <string name="hello_user">Hello, user</string>
     <string name="sign_in">Sign In</string>
+    <string name="invalid_name">This is not a valid filename, please only use alphanumeric characters</string>
+    <string name="OK">OK</string>
+    <string name="cancel">Cancel</string>
+    <string name="cancelled">Cancelled</string>
+    <string name="set_file_name">Set a file name</string>
 </resources>

@@ -18,4 +18,8 @@ public interface SpreadsheetView {
     void onStart();
 
     void onStop();
+
+    void save(String spreadsheetName);
+
+    void load(String spreadsheetName);
 }

@@ -14,6 +14,7 @@ import android.widget.EditText;
 import com.otiasj.easyspreadsheet.MainActivity;
 import com.otiasj.easyspreadsheet.R;
 import com.otiasj.easyspreadsheet.main.domain.MockSpreadSheetDelegate;
+import com.otiasj.easyspreadsheet.main.domain.model.SpreadSheet;
 import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenter;
 import com.otiasj.easyspreadsheet.main.presentation.presenter.SpreadsheetPresenterImpl;
 
@@ -66,6 +67,16 @@ public class SpreadsheetViewImpl implements SpreadsheetView {
 
     public void onStop() {
         cellEditText.removeTextChangedListener(textWatcher);
+    }
+
+    @Override
+    public void save(final String spreadsheetName) {
+        spreadsheetPresenter.save(spreadsheetName);
+    }
+
+    @Override
+    public void load(final String spreadsheetName) {
+        spreadsheetPresenter.load(spreadsheetName);
     }
 
     private TextWatcher textWatcher = new TextWatcher() {
